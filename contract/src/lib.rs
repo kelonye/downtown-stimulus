@@ -23,11 +23,27 @@ pub struct User {
 }
 
 #[near_bindgen]
-#[derive(Default, BorshDeserialize, BorshSerialize)]
+#[derive(BorshDeserialize, BorshSerialize)]
 pub struct DowntownStimulus {
     businesses: HashMap<u64, Business>,
     donations: HashMap<AccountId, User>,
     total_donations: Balance,
+    owner: AccountId,
+}
+
+impl Default for DowntownStimulus {
+    fn default() -> Self {
+        let businesses: HashMap<u64, Business> = HashMap::new();
+        let donations: HashMap<AccountId, User> = HashMap::new();
+        let total_donations: Balance = 0;
+        let owner = env::current_account_id();
+        Self {
+            businesses,
+            donations,
+            total_donations,
+            owner,
+        }
+    }
 }
 
 #[near_bindgen]
@@ -35,7 +51,10 @@ impl DowntownStimulus {
     // Donate N to `business_id`
     #[payable]
     pub fn donate(&mut self, business_id: u64) {
-        assert!(env::attached_deposit() >= MIN_DONATION, "Not enough donation");
+        assert!(
+            env::attached_deposit() >= MIN_DONATION,
+            "Not enough donation"
+        );
 
         match self.businesses.get_mut(&business_id) {
             Some(business) => {
@@ -50,6 +69,7 @@ impl DowntownStimulus {
     }
 
     pub fn register_business(&mut self, name: String, image: String, description: String) {
+        assert_eq!(self.owner, env::current_account_id(), "owner required");
         env::log(format!("registering business {} {} {}", name, image, description).as_bytes());
 
         let id: u64 = (self.businesses.len() as u64) + 1;
@@ -73,33 +93,33 @@ impl DowntownStimulus {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use near_sdk::{MockedBlockchain, testing_env, VMContext, AccountId};
+    use near_sdk::{testing_env, AccountId, MockedBlockchain, VMContext};
 
-    fn alice() -> AccountId {
-        "alice.near".to_string()
+    fn contract_owner() -> AccountId {
+        "contract-owner.near".to_string()
     }
 
-    fn bob() -> AccountId {
-        "bob.near".to_string()
+    fn business_owner() -> AccountId {
+        "business-owner.near".to_string()
     }
 
-    fn carol() -> AccountId {
-        "carol.near".to_string()
+    fn donor() -> AccountId {
+        "donator.near".to_string()
     }
 
-    fn get_context(predecessor_account_id: AccountId) -> VMContext {
+    fn get_context(account_id: AccountId) -> VMContext {
         VMContext {
-            current_account_id: alice(),
-            signer_account_id: bob(),
+            current_account_id: account_id.clone(),
+            signer_account_id: account_id.clone(),
+            predecessor_account_id: account_id.clone(),
             signer_account_pk: vec![0, 1, 2],
-            predecessor_account_id,
             input: vec![],
             block_index: 0,
             block_timestamp: 0,
             account_balance: 0,
             account_locked_balance: 0,
             storage_usage: 10u64.pow(6),
-            attached_deposit: 0,
+            attached_deposit: MIN_DONATION,
             prepaid_gas: 10u64.pow(18),
             random_seed: vec![0, 1, 2],
             is_view: false,
@@ -110,8 +130,7 @@ mod tests {
 
     #[test]
     fn donate() {
-        let mut context = get_context(carol());
-        context.attached_deposit = MIN_DONATION;
+        let context = get_context(contract_owner());
         testing_env!(context);
 
         let mut contract = DowntownStimulus::default();
@@ -134,5 +153,25 @@ mod tests {
             assert_eq!(b.donations.len(), 1);
             assert_eq!(b.donations[0], MIN_DONATION);
         }
+    }
+
+    #[test]
+    #[should_panic(expected = "owner required")]
+    fn assert_only_owner_can_register_business() {
+        let context = get_context(contract_owner());
+        testing_env!(context);
+
+        let mut contract = DowntownStimulus::default();
+        assert_eq!(contract.owner, contract_owner());
+
+        let context = get_context(donor());
+        testing_env!(context);
+
+        contract.register_business(
+            "Peet's Coffee".to_string(),
+            "coffee.png".to_string(),
+            "In need of 10k stimulus in order to keep all our loyal staff through the year."
+                .to_string(),
+        );
     }
 }

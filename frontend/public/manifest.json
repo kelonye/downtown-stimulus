@@ -1,0 +1,13 @@
+{
+  "name": "Downtown Stimulus",
+  "description": "Downtown Stimulus",
+  "icons": [
+    {
+      "src": "logo.png",
+      "sizes": "300x300",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "./index.html",
+  "display": "standalone"
+}

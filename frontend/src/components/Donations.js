@@ -11,7 +11,7 @@ const useStyles = makeStyles({
   },
 });
 
-function Component({ x, y }) {
+function Component({ x, totalDonations, totalMatchedDonations }) {
   const classes = useStyles();
   const chartRef = React.useRef();
 
@@ -22,8 +22,15 @@ function Component({ x, y }) {
         labels: 'Business',
         datasets: [
           {
-            label: 'CLR Match',
-            data: y,
+            label: 'Actual',
+            data: totalDonations,
+            backgroundColor: '#fff',
+            borderColor: '#fff',
+            fill: false,
+          },
+          {
+            label: 'Matched',
+            data: totalMatchedDonations,
             backgroundColor: '#fc0',
             borderColor: '#fff',
             fill: false,
@@ -34,6 +41,9 @@ function Component({ x, y }) {
         maintainAspectRatio: false,
         legend: {
           // display: false,
+          labels: {
+            fontColor: '#ddd',
+          },
           onClick(e) {
             e.stopPropagation();
           },
@@ -49,9 +59,10 @@ function Component({ x, y }) {
     //
     // React.useEffect(() => {
     chart.data.labels = x;
-    chart.data.datasets[0].data = y;
+    chart.data.datasets[0].data = totalDonations;
+    chart.data.datasets[1].data = totalMatchedDonations;
     chart.update();
-  }, [x, y]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [totalDonations, totalMatchedDonations]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Paper className={classes.root}>
@@ -60,10 +71,10 @@ function Component({ x, y }) {
   );
 }
 
-export default connect(
-  ({ data: { businesses, donations } }) => ({
+export default connect((state, { businesses }) => {
+  return {
     x: businesses.map(b => b.name),
-    y: donations,
-  }),
-  mapDispatchToProps
-)(Component);
+    totalDonations: businesses.map(b => b.totalDonations),
+    totalMatchedDonations: businesses.map(b => b.totalMatchedDonations),
+  };
+}, mapDispatchToProps)(Component);

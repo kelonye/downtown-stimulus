@@ -1,6 +1,6 @@
 ![](https://downtown-stimulus.surge.sh/shot.png)
 
-An attempt at simple quadratic funding using crypto for downtown businesses affected by covid-19; while learning some [rust](https://www.rust-lang.org) ;).
+An attempt at simple quadratic funding using crypto (NEAR) for downtown businesses affected by covid-19; while learning some [rust](https://www.rust-lang.org) ;).
 
 ### Todos
 
@@ -11,6 +11,11 @@ An attempt at simple quadratic funding using crypto for downtown businesses affe
 - [ ] Implement donation and CLR matching
 - [ ] Donation social media share
 - [ ] Funding window closure and payout to businesses
+
+### Tools
+
+- [React](https://reactjs.org/) - frontend
+- [Near Protocol](https://near.org/) - dapp backend
 
 ### Resources
 

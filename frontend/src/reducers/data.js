@@ -4,7 +4,7 @@ const DEFAULT_STATE = {
   businesses: [
     {
       id: 1,
-      name: 'Pete\'s Coffee',
+      name: 'Peet\'s Coffee',
       image:
         'https://img.theculturetrip.com/x/smart/wp-content/uploads/2018/02/coffee-3120750_1280-1.jpg',
     },
@@ -26,8 +26,13 @@ const DEFAULT_STATE = {
       image:
         'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQNU6TVcyVq16CovYsknkWpale5iqumYURRe7F7D5igl6V_9NsN&usqp=CAU',
     },
-  ],
-  donations: new Array(4).fill(0).map(() => Math.floor(Math.random() * 100)),
+  ].map(b => {
+    b.donations = new Array(4)
+      .fill(0)
+      .map(() => Math.floor(Math.random() * 100));
+    b.totalDonations = b.donations.reduce((sum, d) => sum + d, 0);
+    return b;
+  }),
 };
 
 export default (state = DEFAULT_STATE, action) => {

@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import * as mapDispatchToProps from 'actions';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -19,7 +21,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function({ business, donation }) {
+function Component({ business, totalMatchedDonations }) {
   const classes = useStyles();
 
   return (
@@ -35,7 +37,8 @@ export default function({ business, donation }) {
             {business.name}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            {donation}$
+            {business.totalDonations.toFixed(2)} /{' '}
+            {business.totalMatchedDonations.toFixed(2)} N
           </Typography>
         </CardContent>
       </CardActionArea>
@@ -50,3 +53,7 @@ export default function({ business, donation }) {
     </Card>
   );
 }
+
+export default connect((state, { index }) => {
+  return {};
+}, mapDispatchToProps)(Component);

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import * as mapDispatchToProps from 'actions';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
-import { Button } from '@material-ui/core';
+import { businessesSelector } from 'selectors/data';
 import Loader from './Loader';
 import Business from './Business';
 import Donations from './Donations';
@@ -43,7 +43,6 @@ function Component({
   activateWallet,
   isLoggedIn,
   businesses,
-  donations,
 }) {
   const classes = useStyles();
 
@@ -57,13 +56,13 @@ function Component({
         <div className={clsx('flex', classes.sectionsContainer)}>
           <div>
             <div className={clsx(classes.businesses)}>
-              {businesses.map((b, i) => (
-                <Business key={b.id} business={b} donation={donations[i]} />
+              {businesses.map(b => (
+                <Business key={b.id} business={b} />
               ))}
             </div>
           </div>
           <div>
-            <Donations />
+            <Donations businesses={businesses} />
           </div>
         </div>
       </div>
@@ -77,11 +76,12 @@ function Component({
   );
 }
 
-export default connect(
-  ({ data: { businesses, donations }, wallet: { isLoggedIn } }) => ({
+export default connect(state => {
+  const {
+    wallet: { isLoggedIn },
+  } = state;
+  return {
     isLoggedIn,
-    businesses,
-    donations,
-  }),
-  mapDispatchToProps
-)(Component);
+    businesses: businessesSelector(state),
+  };
+}, mapDispatchToProps)(Component);

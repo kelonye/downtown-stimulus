@@ -1,6 +1,6 @@
 ![](https://downtown-stimulus.surge.sh/shot.png)
 
-An attempt at simple quadratic funding using crypto for downtown businesses affected by covid-19, while learning some [rust](https://www.rust-lang.org) ;).
+An attempt at simple quadratic funding using crypto for downtown businesses affected by covid-19; while learning some [rust](https://www.rust-lang.org) ;).
 
 ### Todos
 

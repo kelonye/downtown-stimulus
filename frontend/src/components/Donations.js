@@ -16,14 +16,13 @@ function Component({ x, y }) {
   const chartRef = React.useRef();
 
   React.useEffect(() => {
-    console.log(chartRef);
     const chart = new Chart(chartRef.current.getContext('2d'), {
       type: 'bar',
       data: {
         labels: 'Business',
         datasets: [
           {
-            label: 'Donations',
+            label: 'CLR Match',
             data: y,
             backgroundColor: '#fc0',
             borderColor: '#fff',
@@ -34,7 +33,7 @@ function Component({ x, y }) {
       options: {
         maintainAspectRatio: false,
         legend: {
-          display: false,
+          // display: false,
           onClick(e) {
             e.stopPropagation();
           },

@@ -1,4 +1,4 @@
-run:
+run: fmt
 	@cargo build --target wasm32-unknown-unknown --release
 	@cp ./target/wasm32-unknown-unknown/release/downtown_stimulus.wasm ./res
 
@@ -8,10 +8,14 @@ test:
 pre:
 	@rustup target add wasm32-unknown-unknown
 
+fmt:
+	@cargo fmt
+
 deploy:
 	@near deploy --accountId=downtown-stimulus --wasmFile ./res/downtown_stimulus.wasm
 
 .PHONY: run \
 	test \
 	pre \
+	fmt \
 	deploy

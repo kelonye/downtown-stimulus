@@ -39,7 +39,7 @@ function Component({
           onClick={isLoggedIn ? deactivateWallet : activateWallet}
           color="secondary"
         >
-          {isLoggedIn ? 'Sign Out' : 'Connect'}
+          {isLoggedIn ? 'Sign Out' : 'Connect Near Account'}
         </Button>
 
         <Tooltip title="Toggle light/dark theme">

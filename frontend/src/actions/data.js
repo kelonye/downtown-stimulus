@@ -1,10 +1,9 @@
-import Promise from 'bluebird';
+// import Promise from 'bluebird';
 import NProgress from 'nprogress';
 import { parseNearAmount } from 'near-api-js/lib/utils/format';
 import { ACTION_TYPE_UPDATE_DATA } from 'config';
 import near from 'utils/wallet';
 import { parseBusiness, parseBusinesses } from 'utils/data';
-import { fetchBalance } from './wallet';
 
 export function updateData(payload) {
   return {
@@ -37,15 +36,13 @@ export function donate(businessId, donation) {
     NProgress.set(0.4);
     const { wallet } = near();
     try {
-      await wallet
-        .account()
-        .functionCall(
-          'downtown-stimulus',
-          'donate',
-          { business_id: parseInt(businessId) },
-          null,
-          parseNearAmount(donation.toString())
-        );
+      await wallet.account().functionCall(
+        'downtown-stimulus',
+        'donate',
+        { business_id: parseInt(businessId) },
+        null, // use default gas
+        parseNearAmount(donation.toString())
+      );
     } finally {
       NProgress.done();
     }

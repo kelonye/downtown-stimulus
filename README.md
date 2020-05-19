@@ -8,11 +8,11 @@ An attempt at simple quadratic funding using crypto (NEAR) for downtown business
 
 The dapp has 3 users:
 
-- Major donors, philanthropists, government agecies etc
-- Business owners
-- Individual donors
+- Major donors, philanthropists, local governments etc willing to offer stimulus
+- Business owners seeking funding
+- Individual donors willing to donate to their local favorite businesses
 
-The dapps utilizes quadratic funding (first described by Vitalik) which can be used to realize fairer disbursement of a large sum of aid to a select set of businesses (affected by covid-19). Quadratic funding lets the public vote (by also donating) on the allocation of these funds, where, the payout for each of these businesses is proportional to the square of the sum of the square roots of the individual public contributions.
+The dapps utilizes quadratic funding, [first described by Vitalik](https://vitalik.ca/general/2019/12/07/quadratic.html), to realize fairer disbursement of a large sum of aid to a select set of businesses (affected by covid-19). Quadratic funding lets the public vote (by also donating) on the allocation of these funds where, the payout for each of these businesses is proportional to the square of the sum of the square roots of the individual public contributions.
 
 For example, here is a breakdown of the allocation of \$100k pledged by a donor to a group of 3 businesses in a funding round:
 
@@ -24,7 +24,7 @@ For example, here is a breakdown of the allocation of \$100k pledged by a donor 
 |          |                                 |                      |         | Total                  | 100,000 |
 
 We can see that business C did get the best allocation ratio due to having more interest from the public in terms of the number of contributors.
-[Gitcoin](https://gitcoin.co/grants/) uses [similar matching](https://ethgasstation.info/blog/quadratic-funding-in-a-nutshell/) to allocate funds provided by Ethereum Foundation and ConsenSys to sponsor awesome open source projects.
+[Gitcoin](https://gitcoin.co/grants/) uses a [similar matching](https://ethgasstation.info/blog/quadratic-funding-in-a-nutshell/) to allocate funds provided by Ethereum Foundation and ConsenSys to sponsor awesome open source projects.
 
 ### Tools
 
@@ -45,7 +45,7 @@ The dapp is a Near Platform dapp that allows users to vote on these businesses u
 
 ### Icebox
 
-- [ ] Sybil attacks prevention
+- [ ] Switch to Gitcoin's CLR matching to prevent sybil attacks 🤔
 
 ### Resources
 

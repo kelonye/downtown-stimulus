@@ -50,7 +50,7 @@ function Component({
     <div className={clsx('flex flex--justify-center', classes.container)}>
       <div className={clsx('flex', 'flex--column', classes.bodyContainer)}>
         <h1 className="flex flex--grow flex--justify-center">
-          Round #5 Funding Pledge: $100,000
+          Round #1 Funding Pledge: $100,000
         </h1>
         <br />
         <div className={clsx('flex', classes.sectionsContainer)}>

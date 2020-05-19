@@ -31,7 +31,8 @@ export async function load() {
 
   // Initializing our contract APIs by contract name and configuration.
   const account = await new nearlib.Account(near.connection, accountId);
-
+  window.walletAccount = walletAccount;
+  window.account = account;
   const contract = await new nearlib.Contract(
     account,
     nearConfig.contractName,

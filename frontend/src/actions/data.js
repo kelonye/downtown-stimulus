@@ -35,17 +35,17 @@ export function donate(businessId, donation) {
   return async(dispatch, getState) => {
     NProgress.start();
     NProgress.set(0.4);
-    const { contract } = near();
+    const { wallet } = near();
     try {
-      await contract.donate(
-        { business_id: parseInt(businessId) },
-        null,
-        parseNearAmount(donation.toString())
-      );
-      await Promise.all([
-        dispatch(fetchBusiness(businessId)),
-        dispatch(fetchBalance()),
-      ]);
+      await wallet
+        .account()
+        .functionCall(
+          'downtown-stimulus',
+          'donate',
+          { business_id: parseInt(businessId) },
+          null,
+          parseNearAmount(donation.toString())
+        );
     } finally {
       NProgress.done();
     }

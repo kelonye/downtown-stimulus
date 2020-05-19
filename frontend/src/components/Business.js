@@ -43,12 +43,8 @@ function Component({ business, donate, accountId, activateWallet }) {
     if (!donation) {
       return await onDonate();
     }
-    try {
-      await donate(business.id, donation);
-      sl('success', 'Added!');
-    } catch (e) {
-      sl('error', e);
-    }
+
+    await donate(business.id, donation);
   };
 
   return (

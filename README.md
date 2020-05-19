@@ -12,7 +12,7 @@ The dapp has 3 users:
 - Business owners
 - Individual donors
 
-The dapps utilizes quadratic funding which can be used to propose a fairer disbursement of a large sum of aid to a select set of businesses (affected by covid-19). Quadratic funding lets the public vote on the allocation of these funds, where the payout for each business is proportional to the square of the sum of the square roots of the individual public contributions.
+The dapps utilizes quadratic funding (first described by Vitalik) which can be used to realize fairer disbursement of a large sum of aid to a select set of businesses (affected by covid-19). Quadratic funding lets the public vote (by also donating) on the allocation of these funds, where, the payout for each of these businesses is proportional to the square of the sum of the square roots of the individual public contributions.
 
 For example, here is a breakdown of the allocation of \$100k pledged by a donor to a group of 3 businesses in a funding round:
 
@@ -22,6 +22,8 @@ For example, here is a breakdown of the allocation of \$100k pledged by a donor 
 | B        | 10,000                          | 10,000               | 10,000  | 20,000                 | 48,405  |
 | C        | 100, 300, 50, 100, 300, 70, 300 | 1,220                | 7,638   | 8,858                  | 21,438  |
 |          |                                 |                      |         | Total                  | 100,000 |
+
+We can see that business C did get the best allocation ratio due to having more interest from the public in terms of the number of contributors.
 
 ### Tools
 

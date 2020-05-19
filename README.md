@@ -38,10 +38,14 @@ The dapp is a Near Platform dapp that allows users to vote on these businesses u
 - [ ] Create funding round
 - [ ] Allow philanthropists to fund the round
 - [ ] Allow business application
-- [ ] Allow funding a business
+- [x] Allow funding a business
 - [ ] Implement donation and CLR matching
 - [ ] Donation social media share
 - [ ] Funding window closure and payout to businesses
+
+### Icebox
+
+- [ ] Sybil attacks prevention
 
 ### Resources
 

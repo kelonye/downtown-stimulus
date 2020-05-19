@@ -1,35 +1,44 @@
 use borsh::{BorshDeserialize, BorshSerialize};
+use near_sdk::collections::{Map, Vector};
 use near_sdk::{env, near_bindgen, AccountId, Balance};
-use serde::{Deserialize, Serialize};
-use std::collections::HashMap;
-use std::vec::Vec;
+// use serde::{Deserialize, Serialize};
 
 const MIN_DONATION: Balance = 1_000_000_000_000_000_000_000_000; // 1 N
 
 #[global_allocator]
 static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 
-#[derive(Serialize, Deserialize, BorshDeserialize, BorshSerialize)]
+#[derive(BorshDeserialize, BorshSerialize)]
 pub struct Business {
     name: String,
     image: String,
     description: String,
-    donations: Vec<Balance>,
+    donations: Vector<Balance>,
     // total_donations: Balance,
 }
 
-#[derive(Serialize, Deserialize, BorshDeserialize, BorshSerialize)]
+#[derive(BorshDeserialize, BorshSerialize)]
 pub struct User {
-    donations: Vec<Balance>,
+    donations: Vector<Balance>,
     // total_donations: Balance,
 }
 
 #[near_bindgen]
-#[derive(Default, BorshDeserialize, BorshSerialize)]
+#[derive(BorshDeserialize, BorshSerialize)]
 pub struct DowntownStimulus {
-    businesses: HashMap<u64, Business>,
-    users: HashMap<AccountId, User>,
+    businesses: Map<u64, Business>,
+    users: Map<AccountId, User>,
     total_donations: Balance,
+}
+
+impl Default for DowntownStimulus {
+    fn default() -> Self {
+        Self {
+            businesses: Map::new(b"businesses".to_vec()),
+            users: Map::new(b"users".to_vec()),
+            total_donations: 0,
+        }
+    }
 }
 
 #[near_bindgen]
@@ -41,10 +50,10 @@ impl DowntownStimulus {
         env::log(format!("donating({}) to business({})", amount, business_id).as_bytes());
         assert!(amount >= MIN_DONATION, "not enough donation");
 
-        match self.businesses.get_mut(&business_id) {
+        match self.businesses.get(&business_id) {
             Some(business) => {
                 env::log(format!("recording business donation {}", business.name).as_bytes());
-                &business.donations.push(amount);
+                &business.donations.push(&amount);
             }
             _ => {
                 env::panic(format!("unknown business {}", business_id).as_bytes());
@@ -53,15 +62,19 @@ impl DowntownStimulus {
 
         let account_id = env::signer_account_id();
         env::log(format!("recording user donation {}", account_id).as_bytes());
-        match self.users.get_mut(&account_id) {
+        match self.users.get(&account_id) {
             Some(user) => {
-                &user.donations.push(amount);
+                &user.donations.push(&amount);
             }
             _ => {
-                let mut donations: Vec<Balance> = Vec::new();
-                donations.push(amount);
+                let mut donations: Vector<Balance> = Vector::new(
+                    format!("user::donations::{}", account_id)
+                        .as_bytes()
+                        .to_vec(),
+                );
+                donations.push(&amount);
                 let user = User { donations };
-                self.users.insert(account_id, user);
+                self.users.insert(&account_id, &user);
             }
         }
 
@@ -76,18 +89,22 @@ impl DowntownStimulus {
         );
         env::log(format!("registering business {} {} {}", name, image, description).as_bytes());
 
-        let id: u64 = (self.businesses.len() as u64) + 1;
-        let donations: Vec<Balance> = Vec::new();
+        let business_id: u64 = (self.businesses.len() as u64) + 1;
+        let donations: Vector<Balance> = Vector::new(
+            format!("business::donations::{}", business_id)
+                .as_bytes()
+                .to_vec(),
+        );
         let business = Business {
             name,
             image,
             description,
             donations,
         };
-        self.businesses.insert(id, business);
+        self.businesses.insert(&business_id, &business);
     }
 
-    pub fn get_businesses(&self) -> &HashMap<u64, Business> {
+    pub fn get_businesses(&self) -> &Map<u64, Business> {
         env::log(format!("looking up businesses").as_bytes());
         return &self.businesses;
     }
@@ -96,7 +113,7 @@ impl DowntownStimulus {
         env::log(format!("looking up business({})", business_id).as_bytes());
         match self.businesses.get(&business_id) {
             Some(business) => {
-                return business;
+                return &business;
             }
             _ => {
                 env::panic(format!("unknown business {}", business_id).as_bytes());

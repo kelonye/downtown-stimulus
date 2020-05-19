@@ -23,10 +23,18 @@ const useStyles = makeStyles({
   },
 });
 
-function Component({ business, totalMatchedDonations, donate }) {
+function Component({ business, donate, accountId, activateWallet }) {
   const classes = useStyles();
 
   const onDonate = async() => {
+    if (!accountId) {
+      return sl(
+        'info',
+        'You will be redirected to connect with your near testnet wallet account...',
+        'Please login',
+        activateWallet
+      );
+    }
     let donation = prompt('Enter NEAR amount?');
     if (donation === null) {
       return;
@@ -65,14 +73,16 @@ function Component({ business, totalMatchedDonations, donate }) {
         <Button size="small" color="primary" onClick={onDonate}>
           Donate
         </Button>
+        {/*
         <Button size="small" color="primary">
           Learn More
         </Button>
+        */}
       </CardActions>
     </Card>
   );
 }
 
-export default connect((state, { index }) => {
-  return {};
+export default connect(({ wallet: { accountId } }) => {
+  return { accountId };
 }, mapDispatchToProps)(Component);

@@ -34,21 +34,6 @@ pub struct DowntownStimulus {
 
 #[near_bindgen]
 impl DowntownStimulus {
-    // #[init]
-    // pub fn new() -> Self {
-    //     assert!(env::state_read::<Self>().is_none(), "already initialized");
-    //     let businesses: HashMap<u64, Business> = HashMap::new();
-    //     let users: HashMap<AccountId, User> = HashMap::new();
-    //     let total_donations: Balance = 0;
-    //     let owner = env::predecessor_account_id();
-    //     Self {
-    //         businesses,
-    //         users,
-    //         total_donations,
-    //         owner,
-    //     }
-    // }
-
     // Donate N to `business_id`
     #[payable]
     pub fn donate(&mut self, business_id: u64) {

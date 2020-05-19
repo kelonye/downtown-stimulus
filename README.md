@@ -24,6 +24,7 @@ For example, here is a breakdown of the allocation of \$100k pledged by a donor 
 |          |                                 |                      |         | Total                  | 100,000 |
 
 We can see that business C did get the best allocation ratio due to having more interest from the public in terms of the number of contributors.
+[Gitcoin](https://gitcoin.co/grants/) uses [similar matching](https://ethgasstation.info/blog/quadratic-funding-in-a-nutshell/) to allocate funds provided by Ethereum Foundation and ConsenSys to sponsor awesome open source projects.
 
 ### Tools
 

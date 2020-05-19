@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::vec::Vec;
 
-const MIN_DONATION: Balance = 1_000_000;
+const MIN_DONATION: Balance = 1_000_000_000_000_000_000_000_000; // 1 N
 
 #[global_allocator]
 static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
@@ -15,61 +15,80 @@ pub struct Business {
     image: String,
     description: String,
     donations: Vec<Balance>,
+    // total_donations: Balance,
 }
 
 #[derive(Serialize, Deserialize, BorshDeserialize, BorshSerialize)]
 pub struct User {
     donations: Vec<Balance>,
+    // total_donations: Balance,
 }
 
 #[near_bindgen]
-#[derive(BorshDeserialize, BorshSerialize)]
+#[derive(Default, BorshDeserialize, BorshSerialize)]
 pub struct DowntownStimulus {
     businesses: HashMap<u64, Business>,
-    donations: HashMap<AccountId, User>,
+    users: HashMap<AccountId, User>,
     total_donations: Balance,
-    owner: AccountId,
-}
-
-impl Default for DowntownStimulus {
-    fn default() -> Self {
-        let businesses: HashMap<u64, Business> = HashMap::new();
-        let donations: HashMap<AccountId, User> = HashMap::new();
-        let total_donations: Balance = 0;
-        let owner = env::current_account_id();
-        Self {
-            businesses,
-            donations,
-            total_donations,
-            owner,
-        }
-    }
 }
 
 #[near_bindgen]
 impl DowntownStimulus {
+    // #[init]
+    // pub fn new() -> Self {
+    //     assert!(env::state_read::<Self>().is_none(), "already initialized");
+    //     let businesses: HashMap<u64, Business> = HashMap::new();
+    //     let users: HashMap<AccountId, User> = HashMap::new();
+    //     let total_donations: Balance = 0;
+    //     let owner = env::predecessor_account_id();
+    //     Self {
+    //         businesses,
+    //         users,
+    //         total_donations,
+    //         owner,
+    //     }
+    // }
+
     // Donate N to `business_id`
     #[payable]
     pub fn donate(&mut self, business_id: u64) {
-        assert!(
-            env::attached_deposit() >= MIN_DONATION,
-            "Not enough donation"
-        );
+        let amount = env::attached_deposit();
+        env::log(format!("donating({}) to business({})", amount, business_id).as_bytes());
+        assert!(amount >= MIN_DONATION, "not enough donation");
 
         match self.businesses.get_mut(&business_id) {
             Some(business) => {
                 env::log(format!("recording business donation {}", business.name).as_bytes());
-                let amount = env::attached_deposit();
                 &business.donations.push(amount);
             }
             _ => {
                 env::panic(format!("unknown business {}", business_id).as_bytes());
             }
         }
+
+        let account_id = env::signer_account_id();
+        env::log(format!("recording user donation {}", account_id).as_bytes());
+        match self.users.get_mut(&account_id) {
+            Some(user) => {
+                &user.donations.push(amount);
+            }
+            _ => {
+                let mut donations: Vec<Balance> = Vec::new();
+                donations.push(amount);
+                let user = User { donations };
+                self.users.insert(account_id, user);
+            }
+        }
+
+        self.total_donations += amount;
     }
 
     pub fn register_business(&mut self, name: String, image: String, description: String) {
-        assert_eq!(self.owner, env::current_account_id(), "owner required");
+        assert_eq!(
+            env::current_account_id(),
+            env::signer_account_id(),
+            "owner required"
+        );
         env::log(format!("registering business {} {} {}", name, image, description).as_bytes());
 
         let id: u64 = (self.businesses.len() as u64) + 1;
@@ -86,6 +105,22 @@ impl DowntownStimulus {
     pub fn get_businesses(&self) -> &HashMap<u64, Business> {
         env::log(format!("looking up businesses").as_bytes());
         return &self.businesses;
+    }
+
+    pub fn get_business(&self, business_id: u64) -> &Business {
+        env::log(format!("looking up business({})", business_id).as_bytes());
+        match self.businesses.get(&business_id) {
+            Some(business) => {
+                return business;
+            }
+            _ => {
+                env::panic(format!("unknown business {}", business_id).as_bytes());
+            }
+        }
+    }
+
+    pub fn get_owner(&self) -> AccountId {
+        return env::current_account_id().clone();
     }
 }
 
@@ -109,7 +144,7 @@ mod tests {
 
     fn get_context(account_id: AccountId) -> VMContext {
         VMContext {
-            current_account_id: account_id.clone(),
+            current_account_id: contract_owner(),
             signer_account_id: account_id.clone(),
             predecessor_account_id: account_id.clone(),
             signer_account_pk: vec![0, 1, 2],
@@ -153,6 +188,12 @@ mod tests {
             assert_eq!(b.donations.len(), 1);
             assert_eq!(b.donations[0], MIN_DONATION);
         }
+
+        for (id, u) in contract.users.iter() {
+            assert_eq!(id, &contract_owner());
+            assert_eq!(u.donations.len(), 1);
+            assert_eq!(u.donations[0], MIN_DONATION);
+        }
     }
 
     #[test]
@@ -162,7 +203,6 @@ mod tests {
         testing_env!(context);
 
         let mut contract = DowntownStimulus::default();
-        assert_eq!(contract.owner, contract_owner());
 
         let context = get_context(donor());
         testing_env!(context);

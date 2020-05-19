@@ -7405,10 +7405,10 @@ natural-compare@^1.4.0:
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
   integrity sha1-Sr6/7tdUHywnrPspvbvRXI1bpPc=
 
-near-api-js@^0.24.0:
-  version "0.24.0"
-  resolved "https://registry.yarnpkg.com/near-api-js/-/near-api-js-0.24.0.tgz#99b19200748cdd6003c55c413e73e3903ce503c0"
-  integrity sha512-SxTiKlLYDcqbBQP/UVqm5bYd5SwPIpHgFvUT8PbO4rZ3z58Ws7wI1IQ/fganmzKOIFpKwvO5kjfs5j73qHCD1Q==
+near-api-js@^0.25.1:
+  version "0.25.1"
+  resolved "https://registry.yarnpkg.com/near-api-js/-/near-api-js-0.25.1.tgz#4b2c05cc929cc42b76898ca12939aafc083505e9"
+  integrity sha512-z0LpHA+CmbOreaTCEl91/cus9K/S+hC3zLMf6L6UyxY+GUNDV1OqlvTZzsbrHxFnlbK45ZwebtZeOtLPOrDceQ==
   dependencies:
     "@types/bn.js" "^4.11.5"
     bn.js "^5.0.0"

@@ -5,8 +5,9 @@ import { ThemeProvider, makeStyles } from '@material-ui/core/styles';
 import { DANGER_COLOR } from 'config';
 import Header from './Header';
 import Home from './Home';
+import RegisterBusiness from './RegisterBusiness';
 import Loader from './Loader';
-import { Router } from 'react-router-dom';
+import { Router, Route, Switch } from 'react-router-dom';
 import { history } from 'store';
 import themeSelector, { isDarkSelector } from 'selectors/theme';
 import { CssBaseline } from '@material-ui/core';
@@ -33,7 +34,10 @@ function Component({ error, isLoaded, theme, isDark }) {
     pane = (
       <div className="flex-grow">
         <Header />
-        <Home />
+        <Switch>
+          <Route exact path={'/register'} component={RegisterBusiness} />
+          <Route path={'/'} component={Home} />
+        </Switch>
       </div>
     );
   } else {

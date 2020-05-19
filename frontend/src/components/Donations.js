@@ -74,7 +74,9 @@ function Component({ x, totalDonations, totalMatchedDonations }) {
 export default connect((state, { businesses }) => {
   return {
     x: businesses.map(b => b.name),
-    totalDonations: businesses.map(b => b.totalDonations),
-    totalMatchedDonations: businesses.map(b => b.totalMatchedDonations),
+    totalDonations: businesses.map(b => b.totalDonations / 10 ** 24),
+    totalMatchedDonations: businesses.map(
+      b => b.totalMatchedDonations / 10 ** 24
+    ),
   };
 }, mapDispatchToProps)(Component);

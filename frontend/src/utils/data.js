@@ -1,6 +1,4 @@
-// clr(new Array(3)).fill(275/3));
-
-export default function(contributions) {
+export function clr(contributions) {
   const sumOfSquareRoots = contributions.reduce(
     (sum, contribution) => sum + Math.sqrt(contribution),
     0
@@ -12,6 +10,22 @@ export default function(contributions) {
   );
 
   return totalContributions + Math.pow(sumOfSquareRoots, 2);
+}
+
+export function parseBusiness(b) {
+  b.totalDonations = b.donations.reduce((sum, d) => sum + d, 0);
+  b.totalMatchedDonations = clr(b.donations);
+  return b;
+}
+
+export function parseBusinesses(businesses) {
+  const ret = {};
+  Object.entries(businesses).forEach(([id, b]) => {
+    id = parseInt(id);
+    b.id = id;
+    ret[id] = parseBusiness(b);
+  });
+  return ret;
 }
 
 // (function main() {

@@ -43,3 +43,14 @@ export function updateWallet(payload) {
     payload,
   };
 }
+
+export function fetchBalance(businessId) {
+  return async(dispatch, getState) => {
+    const { account } = near();
+    dispatch(
+      updateWallet({
+        balance: (await account.getAccountBalance()).available,
+      })
+    );
+  };
+}

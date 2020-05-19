@@ -1,5 +1,5 @@
 import * as nearlib from 'near-api-js';
-import getConfig from 'config/wallet';
+import getConfig, { VIEW_METHODS, CHANGE_METHODS } from 'config/wallet';
 
 const cache = {};
 
@@ -31,14 +31,15 @@ export async function load() {
 
   // Initializing our contract APIs by contract name and configuration.
   const account = await new nearlib.Account(near.connection, accountId);
+
   const contract = await new nearlib.Contract(
     account,
     nearConfig.contractName,
     {
       // View methods are read only. They don't modify the state, but usually return some value.
-      viewMethods: ['welcome'],
+      viewMethods: VIEW_METHODS,
       // Change methods can modify the state. But you don't receive the returned value when called.
-      changeMethods: ['set_greeting'],
+      changeMethods: CHANGE_METHODS,
       // Sender is the account ID to initialize transactions.
       sender: accountId,
     }

@@ -9,6 +9,8 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import NEAR from 'components/NEAR';
+import sl from 'utils/sl';
 
 const useStyles = makeStyles({
   root: {
@@ -21,8 +23,25 @@ const useStyles = makeStyles({
   },
 });
 
-function Component({ business, totalMatchedDonations }) {
+function Component({ business, totalMatchedDonations, donate }) {
   const classes = useStyles();
+
+  const onDonate = async() => {
+    let donation = prompt('Enter NEAR amount?');
+    if (donation === null) {
+      return;
+    }
+    donation = parseInt(donation);
+    if (!donation) {
+      return await onDonate();
+    }
+    try {
+      await donate(business.id, donation);
+      sl('success', 'Added!');
+    } catch (e) {
+      sl('error', e);
+    }
+  };
 
   return (
     <Card className={classes.root}>
@@ -37,13 +56,13 @@ function Component({ business, totalMatchedDonations }) {
             {business.name}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            {business.totalDonations.toFixed(2)} /{' '}
-            {business.totalMatchedDonations.toFixed(2)} N
+            <NEAR amount={business.totalDonations} /> /{' '}
+            <NEAR amount={business.totalMatchedDonations} /> N
           </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary">
+        <Button size="small" color="primary" onClick={onDonate}>
           Donate
         </Button>
         <Button size="small" color="primary">

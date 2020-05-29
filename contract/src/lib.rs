@@ -53,7 +53,7 @@ impl DowntownStimulus {
         match self.businesses.get(&business_id) {
             Some(business) => {
                 env::log(format!("recording business donation {}", business.name).as_bytes());
-                &business.donations.push(&amount);
+                business.donations.push(&amount);
             }
             _ => {
                 env::panic(format!("unknown business {}", business_id).as_bytes());
@@ -104,26 +104,26 @@ impl DowntownStimulus {
         self.businesses.insert(&business_id, &business);
     }
 
-    pub fn get_businesses(&self) -> &Map<u64, Business> {
-        env::log(format!("looking up businesses").as_bytes());
-        return &self.businesses;
-    }
-
-    pub fn get_business(&self, business_id: u64) -> &Business {
-        env::log(format!("looking up business({})", business_id).as_bytes());
-        match self.businesses.get(&business_id) {
-            Some(business) => {
-                return &business;
-            }
-            _ => {
-                env::panic(format!("unknown business {}", business_id).as_bytes());
-            }
-        }
-    }
-
-    pub fn get_owner(&self) -> AccountId {
-        return env::current_account_id().clone();
-    }
+    // pub fn get_businesses(&self) -> &Map<u64, Business> {
+    //     env::log(format!("looking up businesses").as_bytes());
+    //     return &self.businesses;
+    // }
+    //
+    // pub fn get_business(&self, business_id: u64) -> &Business {
+    //     env::log(format!("looking up business({})", business_id).as_bytes());
+    //     match self.businesses.get(&business_id) {
+    //         Some(business) => {
+    //             return &business;
+    //         }
+    //         _ => {
+    //             env::panic(format!("unknown business {}", business_id).as_bytes());
+    //         }
+    //     }
+    // }
+    //
+    // pub fn get_owner(&self) -> AccountId {
+    //     return env::current_account_id().clone();
+    // }
 }
 
 #[cfg(not(target_arch = "wasm32"))]

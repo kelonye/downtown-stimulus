@@ -25,6 +25,7 @@ export default Base =>
             window.localStorage.clear();
             await sleep(500);
             window.location.reload();
+            return;
           } else {
             throw e;
           }

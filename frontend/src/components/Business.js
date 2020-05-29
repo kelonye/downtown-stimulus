@@ -59,6 +59,11 @@ function Component({ business, donate, accountId, activateWallet }) {
           <Typography gutterBottom variant="h5" component="h2">
             {business.name}
           </Typography>
+          {/*
+          <Typography gutterBottom variant="p" component="p">
+            {business.description}
+          </Typography>
+          */}
           <Typography variant="body2" color="textSecondary" component="p">
             <NEAR amount={business.totalDonations} /> /{' '}
             <NEAR amount={business.totalMatchedDonations} /> N

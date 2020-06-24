@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import {Link} from 'react-router-dom';
 import * as mapDispatchToProps from 'actions';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
@@ -52,6 +53,8 @@ function Component({
         <h1 className="flex flex--grow flex--justify-center">
           Round #1 Funding Pledge: $100,000
         </h1>
+        <br />
+  <p>Help save these small businesses by donating below. We use quadratic funding to match the final allocations so every small contribution goes a long way towards saving these small businesses. {/*Click <Link to='/learn-more' style={{color: '#fc0'}}>here</Link> to learn more about quadratic funding.*/}</p>
         <br />
         <div className={clsx('flex', classes.sectionsContainer)}>
           <div>

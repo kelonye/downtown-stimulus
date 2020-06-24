@@ -18,8 +18,8 @@ For example, here is a breakdown of the allocation of \$100k pledged by a donor 
 
 | Business | Funding from public             | Total Public Funding | Matched | Total Public + Matched | Total   |
 | -------- | ------------------------------- | -------------------- | ------- | ---------------------- | ------- |
-| A        | 2,200, 800, 400                 | 3,400                | 9,060   | 12,460                 | 30,156  |
-| B        | 10,000                          | 10,000               | 10,000  | 20,000                 | 48,405  |
+| A        | 2200, 800, 400                  | 3,400                | 9,060   | 12,460                 | 30,156  |
+| B        | 10000                           | 10,000               | 10,000  | 20,000                 | 48,405  |
 | C        | 100, 300, 50, 100, 300, 70, 300 | 1,220                | 7,638   | 8,858                  | 21,438  |
 |          |                                 |                      |         | Total                  | 100,000 |
 
@@ -28,7 +28,7 @@ We can see that business C did get the best allocation ratio due to having more 
 
 ### Tools
 
-The dapp is a Near Platform dapp that allows users to vote on these businesses using their Near Token. The demo can be accessed at https://downtown-stimulus.surge.sh.
+The dapp is a Near Platform dapp that allows users to vote on these businesses using their Near Tokens. The demo can be accessed at https://downtown-stimulus.surge.sh.
 
 - [React](https://reactjs.org/) - frontend
 - [Near Protocol](https://near.org/) - dapp backend

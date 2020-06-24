@@ -5,10 +5,7 @@
     <link rel="icon" href="%PUBLIC_URL%/logo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Downtown Stimulus"
-    />
+    <meta name="description" content="Downtown Stimulus" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo.png" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
@@ -46,6 +43,10 @@
         background: white;
       }
 
+      .dark body {
+        background: #212121;
+      }
+
       .anim-loading,
       .anim-loading body {
         height: 100%;
@@ -55,10 +56,6 @@
       .anim-loading body {
         display: flex;
         flex-direction: row;
-      }
-
-      .dark body {
-        background: #212121
       }
 
       #loader-container {
@@ -156,7 +153,7 @@
             return false;
           }
           var theme = localStorage.getItem('theme');
-          return 'dark' === JSON.parse(theme);
+          return !theme || 'dark' === JSON.parse(theme);
         } catch (e) {
           return false;
         }

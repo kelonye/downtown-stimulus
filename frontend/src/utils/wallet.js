@@ -11,12 +11,14 @@ export async function load() {
   const nearConfig = getConfig(process.env.NEAR_ENV || 'development');
   // console.log('nearConfig', nearConfig);
 
+  const keyStore = new nearlib.keyStores.BrowserLocalStorageKeyStore();
+
   // Initializing connection to the NEAR DevNet.
   const near = await nearlib.connect(
     Object.assign(
       {
         deps: {
-          keyStore: new nearlib.keyStores.BrowserLocalStorageKeyStore(),
+          keyStore,
         },
       },
       nearConfig
@@ -62,6 +64,7 @@ export async function load() {
     accountId,
     account,
     contract,
+    keyStore,
   }).forEach(([k, v]) => {
     cache[k] = v;
   });

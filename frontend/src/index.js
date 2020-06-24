@@ -8,7 +8,7 @@ import * as serviceWorker from './serviceWorker';
 import store from 'store';
 import App from 'components/App';
 
-(async() => {
+(async () => {
   document.documentElement.classList.remove('anim-loading');
   document.getElementById('loader-container').remove();
   const root = document.createElement('div');

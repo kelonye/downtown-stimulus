@@ -1,5 +1,4 @@
-const CONTRACT_NAME = 'downtown-stimulus';
-
+export const CONTRACT_NAME = 'downtown-stimulus-downtown-stimulus';
 export const VIEW_METHODS = ['get_businesses', 'get_business', 'get_owner'];
 export const CHANGE_METHODS = ['register_business', 'donate'];
 

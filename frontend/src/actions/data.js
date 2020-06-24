@@ -4,6 +4,7 @@ import { parseNearAmount } from 'near-api-js/lib/utils/format';
 import { ACTION_TYPE_UPDATE_DATA } from 'config';
 import near from 'utils/wallet';
 import { parseBusiness, parseBusinesses } from 'utils/data';
+import { CONTRACT_NAME } from 'config/wallet';
 
 export function updateData(payload) {
   return {
@@ -13,7 +14,7 @@ export function updateData(payload) {
 }
 
 export function registerBusiness(fields) {
-  return async(dispatch, getState) => {
+  return async (dispatch, getState) => {
     NProgress.start();
     NProgress.set(0.4);
     const { contract } = near();
@@ -31,13 +32,13 @@ export function registerBusiness(fields) {
 }
 
 export function donate(businessId, donation) {
-  return async(dispatch, getState) => {
+  return async (dispatch, getState) => {
     NProgress.start();
     NProgress.set(0.4);
     const { wallet } = near();
     try {
       await wallet.account().functionCall(
-        'downtown-stimulus',
+        CONTRACT_NAME,
         'donate',
         { business_id: parseInt(businessId) },
         null, // use default gas
@@ -50,7 +51,7 @@ export function donate(businessId, donation) {
 }
 
 export function fetchBusiness(businessId) {
-  return async(dispatch, getState) => {
+  return async (dispatch, getState) => {
     NProgress.start();
     NProgress.set(0.4);
     const { contract } = near();

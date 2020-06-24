@@ -26,7 +26,7 @@ const useStyles = makeStyles({
 function Component({ business, donate, accountId, activateWallet }) {
   const classes = useStyles();
 
-  const onDonate = async() => {
+  const onDonate = async () => {
     if (!accountId) {
       return sl(
         'info',
@@ -43,7 +43,6 @@ function Component({ business, donate, accountId, activateWallet }) {
     if (!donation) {
       return await onDonate();
     }
-
     await donate(business.id, donation);
   };
 

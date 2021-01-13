@@ -54,8 +54,8 @@ export function fetchBusiness(businessId) {
   return async (dispatch, getState) => {
     NProgress.start();
     NProgress.set(0.4);
-    const { contract } = near();
     try {
+      const { contract } = near();
       const {
         data: { businesses },
       } = getState();

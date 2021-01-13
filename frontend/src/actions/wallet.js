@@ -4,7 +4,7 @@ import near from 'utils/wallet';
 import { sleep } from 'utils';
 
 export function loadWallet() {
-  return async(dispatch, getState) => {
+  return async (dispatch, getState) => {
     try {
       dispatch(updateWallet({ isLoaded: false }));
       dispatch(
@@ -19,7 +19,7 @@ export function loadWallet() {
 }
 
 export function activateWallet() {
-  return async(dispatch, getState) => {
+  return async (dispatch, getState) => {
     const {
       wallet,
       nearConfig: { contractName },
@@ -29,7 +29,7 @@ export function activateWallet() {
 }
 
 export function deactivateWallet() {
-  return async(dispatch, getState) => {
+  return async (dispatch, getState) => {
     near().wallet.signOut();
     await sleep(500);
     // dispatch(loadWallet());
@@ -45,7 +45,7 @@ export function updateWallet(payload) {
 }
 
 export function fetchBalance(businessId) {
-  return async(dispatch, getState) => {
+  return async (dispatch, getState) => {
     const { account } = near();
     dispatch(
       updateWallet({

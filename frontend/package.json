@@ -11,7 +11,7 @@
     "bluebird": "^3.7.2",
     "chart.js": "^2.9.3",
     "history": "^4.10.1",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "moment": "^2.24.0",
     "near-api-js": "^0.25.1",
     "nprogress": "^0.2.0",
